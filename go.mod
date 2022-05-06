@@ -3,6 +3,7 @@ module github.com/samithiwat/samithiwat-backend-general
 go 1.17
 
 require (
+	github.com/bxcodec/faker/v3 v3.8.0
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.11.0
 	google.golang.org/grpc v1.46.0
