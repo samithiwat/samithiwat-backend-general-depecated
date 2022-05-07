@@ -7,21 +7,27 @@ import (
 )
 
 type ContactRepository struct {
-	db gorm.DB
+	db *gorm.DB
 }
 
-func (r *ContactRepository) FindOne(id int, perm *model.Contact) error {
-	return r.db.Preload(clause.Associations).First(&perm, id).Error
+func NewContactRepository(db *gorm.DB) *ContactRepository {
+	return &ContactRepository{
+		db: db,
+	}
 }
 
-func (r *ContactRepository) Create(perm *model.Contact) error {
-	return r.db.Create(&perm).Error
+func (r *ContactRepository) FindOne(id int, cont *model.Contact) error {
+	return r.db.Preload(clause.Associations).First(&cont, id).Error
 }
 
-func (r *ContactRepository) Update(id int, perm *model.Contact) error {
-	return r.db.Where(id).Updates(&perm).First(&perm).Error
+func (r *ContactRepository) Create(cont *model.Contact) error {
+	return r.db.Create(&cont).Error
 }
 
-func (r *ContactRepository) Delete(id int, perm *model.Contact) error {
-	return r.db.First(&perm, id).Delete(&model.Contact{}).Error
+func (r *ContactRepository) Update(id int, cont *model.Contact) error {
+	return r.db.Where(id).Updates(&cont).First(&cont).Error
+}
+
+func (r *ContactRepository) Delete(id int, cont *model.Contact) error {
+	return r.db.First(&cont, id).Delete(&model.Contact{}).Error
 }
