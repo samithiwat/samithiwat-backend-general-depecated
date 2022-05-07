@@ -13,6 +13,7 @@ type LocationService struct {
 
 type LocationRepository interface {
 	FindOne(int, *model.Location) error
+	FindMulti([]uint32, *[]*model.Location) error
 	Create(*model.Location) error
 	Update(int, *model.Location) error
 	Delete(int, *model.Location) error
@@ -43,6 +44,33 @@ func (s *LocationService) FindOne(_ context.Context, req *proto.FindOneLocationR
 
 	result := RawToDtoLocation(&loc)
 	res.Data = result
+	return
+}
+
+func (s *LocationService) FindMulti(_ context.Context, req *proto.FindMultiLocationRequest) (res *proto.LocationListResponse, err error) {
+	var locs []*model.Location
+	var errors []string
+
+	res = &proto.LocationListResponse{
+		Data:       nil,
+		Errors:     errors,
+		StatusCode: http.StatusOK,
+	}
+
+	err = s.repository.FindMulti(req.Ids, &locs)
+	if err != nil {
+		res.Errors = append(errors, err.Error())
+		res.StatusCode = http.StatusNotFound
+		return
+	}
+
+	var result []*proto.Location
+	for _, loc := range locs {
+		result = append(result, RawToDtoLocation(loc))
+	}
+
+	res.Data = result
+
 	return
 }
 

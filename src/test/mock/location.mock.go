@@ -24,6 +24,11 @@ func (LocationMockRepo) FindOne(_ int, loc *model.Location) error {
 	return nil
 }
 
+func (r *LocationMockRepo) FindMulti(_ []uint32, locs *[]*model.Location) error {
+	*locs = Locs
+	return nil
+}
+
 func (LocationMockRepo) Create(loc *model.Location) error {
 	*loc = Loc1
 	return nil
@@ -44,6 +49,10 @@ type LocationMockErrRepo struct {
 
 func (LocationMockErrRepo) FindOne(int, *model.Location) error {
 	return errors.New("Not found location")
+}
+
+func (r *LocationMockErrRepo) FindMulti(_ []uint32, locs *[]*model.Location) error {
+	return nil
 }
 
 func (LocationMockErrRepo) Create(*model.Location) error {
