@@ -13,6 +13,7 @@ type ContactService struct {
 
 type ContactRepository interface {
 	FindOne(int, *model.Contact) error
+	FindMulti([]uint32, *[]*model.Contact) error
 	Create(*model.Contact) error
 	Update(int, *model.Contact) error
 	Delete(int, *model.Contact) error
@@ -43,6 +44,33 @@ func (s *ContactService) FindOne(_ context.Context, req *proto.FindOneContactReq
 
 	result := RawToDtoContact(&cont)
 	res.Data = result
+	return
+}
+
+func (s *ContactService) FindMulti(_ context.Context, req *proto.FindMultiContactRequest) (res *proto.ContactListResponse, err error) {
+	var locs []*model.Contact
+	var errors []string
+
+	res = &proto.ContactListResponse{
+		Data:       nil,
+		Errors:     errors,
+		StatusCode: http.StatusOK,
+	}
+
+	err = s.repository.FindMulti(req.Ids, &locs)
+	if err != nil {
+		res.Errors = append(errors, err.Error())
+		res.StatusCode = http.StatusNotFound
+		return
+	}
+
+	var result []*proto.Contact
+	for _, loc := range locs {
+		result = append(result, RawToDtoContact(loc))
+	}
+
+	res.Data = result
+
 	return
 }
 

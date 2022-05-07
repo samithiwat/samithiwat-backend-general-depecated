@@ -20,6 +20,10 @@ func (r *ContactRepository) FindOne(id int, cont *model.Contact) error {
 	return r.db.Preload(clause.Associations).First(&cont, id).Error
 }
 
+func (r *ContactRepository) FindMulti(ids []uint32, conts *[]*model.Contact) error {
+	return r.db.Where("id IN ?", ids).Find(&conts).Error
+}
+
 func (r *ContactRepository) Create(cont *model.Contact) error {
 	return r.db.Create(&cont).Error
 }
