@@ -14,3 +14,14 @@ func RawToDtoContact(cont *model.Contact) *proto.Contact {
 		Linkedin:  cont.Linkedin,
 	}
 }
+
+func RawToDtoLocation(loc *model.Location) *proto.Location {
+	return &proto.Location{
+		Id:       uint32(loc.ID),
+		Address:  loc.Address,
+		District: loc.District,
+		Province: loc.Province,
+		Country:  loc.Country,
+		Zipcode:  loc.ZipCode,
+	}
+}

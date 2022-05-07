@@ -25,3 +25,25 @@ func DtoToRawContact(cont *proto.Contact) *model.Contact {
 		Linkedin:  cont.Linkedin,
 	}
 }
+
+func RawToDtoLocation(loc *model.Location) *proto.Location {
+	return &proto.Location{
+		Id:       uint32(loc.ID),
+		Address:  loc.Address,
+		District: loc.District,
+		Province: loc.Province,
+		Country:  loc.Country,
+		Zipcode:  loc.ZipCode,
+	}
+}
+
+func DtoToRawLocation(loc *proto.Location) *model.Location {
+	return &model.Location{
+		Model:    gorm.Model{ID: uint(loc.Id)},
+		Address:  loc.Address,
+		District: loc.District,
+		Province: loc.Province,
+		Country:  loc.Country,
+		ZipCode:  loc.Zipcode,
+	}
+}
