@@ -49,6 +49,32 @@ func TestFindOneErrNotFoundContact(t *testing.T) {
 	assert.Equal(want, contRes)
 }
 
+func TestFindMultiContact(t *testing.T) {
+	mock.InitializeMockContact()
+
+	var result []*proto.Contact
+	for _, cont := range mock.Conts {
+		result = append(result, RawToDtoContact(cont))
+	}
+
+	var errors []string
+
+	assert := assert.New(t)
+	want := &proto.ContactListResponse{
+		Data:       result,
+		Errors:     errors,
+		StatusCode: http.StatusOK,
+	}
+
+	contService := service.NewContactService(&mock.ContactMockRepo{})
+	contRes, err := contService.FindMulti(mock.Context{}, &proto.FindMultiContactRequest{Ids: []uint32{1, 2, 3, 4, 5}})
+	if err != nil {
+		t.Errorf("Got an error")
+	}
+
+	assert.Equal(want, contRes)
+}
+
 func TestCreateContact(t *testing.T) {
 	mock.InitializeMockContact()
 

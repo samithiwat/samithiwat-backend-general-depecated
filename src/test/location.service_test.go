@@ -49,6 +49,32 @@ func TestFindOneErrNotFoundLocation(t *testing.T) {
 	assert.Equal(want, locRes)
 }
 
+func TestFindMultiLocation(t *testing.T) {
+	mock.InitializeMockLocation()
+
+	var result []*proto.Location
+	for _, loc := range mock.Locs {
+		result = append(result, RawToDtoLocation(loc))
+	}
+
+	var errors []string
+
+	assert := assert.New(t)
+	want := &proto.LocationListResponse{
+		Data:       result,
+		Errors:     errors,
+		StatusCode: http.StatusOK,
+	}
+
+	locService := service.NewLocationService(&mock.LocationMockRepo{})
+	locRes, err := locService.FindMulti(mock.Context{}, &proto.FindMultiLocationRequest{Ids: []uint32{1, 2, 3, 4, 5}})
+	if err != nil {
+		t.Errorf("Got an error")
+	}
+
+	assert.Equal(want, locRes)
+}
+
 func TestCreateLocation(t *testing.T) {
 	mock.InitializeMockLocation()
 

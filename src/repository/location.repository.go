@@ -20,6 +20,10 @@ func (r *LocationRepository) FindOne(id int, loc *model.Location) error {
 	return r.db.Preload(clause.Associations).First(&loc, id).Error
 }
 
+func (r *LocationRepository) FindMulti(ids []uint32, locations *[]*model.Location) error {
+	return r.db.Where("id IN ?", ids).Find(&locations).Error
+}
+
 func (r *LocationRepository) Create(loc *model.Location) error {
 	return r.db.Create(&loc).Error
 }

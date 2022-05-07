@@ -24,6 +24,11 @@ func (r *ContactMockRepo) FindOne(id int, cont *model.Contact) error {
 	return nil
 }
 
+func (r *ContactMockRepo) FindMulti(_ []uint32, conts *[]*model.Contact) error {
+	*conts = Conts
+	return nil
+}
+
 func (r *ContactMockRepo) Create(cont *model.Contact) error {
 	*cont = Cont1
 	return nil
@@ -44,6 +49,10 @@ type ContactMockErrRepo struct {
 
 func (r *ContactMockErrRepo) FindOne(id int, cont *model.Contact) error {
 	return errors.New("Not found contact")
+}
+
+func (r *ContactMockErrRepo) FindMulti(_ []uint32, conts *[]*model.Contact) error {
+	return nil
 }
 
 func (r *ContactMockErrRepo) Create(cont *model.Contact) error {
