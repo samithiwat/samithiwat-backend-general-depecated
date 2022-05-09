@@ -39,7 +39,7 @@ func (s *ContactService) FindOne(_ context.Context, req *proto.FindOneContactReq
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	result := RawToDtoContact(&cont)
@@ -61,7 +61,7 @@ func (s *ContactService) FindMulti(_ context.Context, req *proto.FindMultiContac
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	var result []*proto.Contact
@@ -88,7 +88,7 @@ func (s *ContactService) Create(_ context.Context, req *proto.CreateContactReque
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusUnprocessableEntity
-		return
+		return res, nil
 	}
 
 	result := RawToDtoContact(cont)
@@ -111,7 +111,7 @@ func (s *ContactService) Update(_ context.Context, req *proto.UpdateContactReque
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	result := RawToDtoContact(cont)
@@ -134,7 +134,7 @@ func (s *ContactService) Delete(_ context.Context, req *proto.DeleteContactReque
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	result := RawToDtoContact(&cont)

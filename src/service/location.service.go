@@ -39,7 +39,7 @@ func (s *LocationService) FindOne(_ context.Context, req *proto.FindOneLocationR
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	result := RawToDtoLocation(&loc)
@@ -61,7 +61,7 @@ func (s *LocationService) FindMulti(_ context.Context, req *proto.FindMultiLocat
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	var result []*proto.Location
@@ -88,7 +88,7 @@ func (s *LocationService) Create(_ context.Context, req *proto.CreateLocationReq
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusUnprocessableEntity
-		return
+		return res, nil
 	}
 
 	result := RawToDtoLocation(loc)
@@ -111,7 +111,7 @@ func (s *LocationService) Update(_ context.Context, req *proto.UpdateLocationReq
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	result := RawToDtoLocation(loc)
@@ -134,7 +134,7 @@ func (s *LocationService) Delete(_ context.Context, req *proto.DeleteLocationReq
 	if err != nil {
 		res.Errors = append(errors, err.Error())
 		res.StatusCode = http.StatusNotFound
-		return
+		return res, nil
 	}
 
 	result := RawToDtoLocation(&loc)
