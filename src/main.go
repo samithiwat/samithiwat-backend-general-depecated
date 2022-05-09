@@ -74,7 +74,7 @@ func main() {
 		log.Fatal("Cannot connect to database: ", err.Error())
 	}
 
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%v", conf.App.Port))
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%v", conf.App.Port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
