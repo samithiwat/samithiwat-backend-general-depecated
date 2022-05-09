@@ -91,7 +91,7 @@ func main() {
 	proto.RegisterLocationServiceServer(grpcServer, locSrv)
 
 	go func() {
-		fmt.Println(fmt.Sprintf("samithiwat user service starting at port %v", conf.App.Port))
+		fmt.Println(fmt.Sprintf("samithiwat general service starting at port %v", conf.App.Port))
 
 		if err = grpcServer.Serve(lis); err != nil {
 			log.Fatalln("Failed to serve:", err)
