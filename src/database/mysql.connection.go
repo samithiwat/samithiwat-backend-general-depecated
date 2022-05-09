@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"github.com/samithiwat/samithiwat-backend-general/src/config"
+	"github.com/samithiwat/samithiwat-backend-general/src/model"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -15,7 +16,7 @@ func InitDatabase(conf *config.Database) (gormDb *gorm.DB, err error) {
 		return
 	}
 
-	err = gormDb.AutoMigrate()
+	err = gormDb.AutoMigrate(model.Contact{}, model.Location{})
 	if err != nil {
 		return
 	}
